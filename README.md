@@ -1,5 +1,7 @@
 # market-correlation-matrices
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/herrrickshaw/market-correlation-matrices/blob/main/notebooks/colab_test.ipynb)
+
 Per-market equity **correlation matrices** computed from the unified OHLCV
 warehouse (`global-market-data/warehouse/` — the deduplicated successor to the
 retired LFS monolith panels). Six markets: IN, US, JP, KR, CN, EU.
