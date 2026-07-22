@@ -1,0 +1,64 @@
+{
+ "market": "EU",
+ "window_days": 252,
+ "window": [
+  "2025-07-04",
+  "2026-06-29"
+ ],
+ "symbols": 842,
+ "pairs_stored": 403,
+ "mean_pairwise_corr": 0.0524,
+ "median_pairwise_corr": 0.0404,
+ "top_pairs": [
+  [
+   "REL.L",
+   "REN.AS",
+   0.9858
+  ],
+  [
+   "VOW.DE",
+   "VOW3.DE",
+   0.9772
+  ],
+  [
+   "SHEL.L",
+   "SHELL.AS",
+   0.9759
+  ],
+  [
+   "CDI.PA",
+   "MC.PA",
+   0.9557
+  ],
+  [
+   "HEIA.AS",
+   "HEIO.AS",
+   0.9409
+  ],
+  [
+   "ULVR.L",
+   "UNA.AS",
+   0.9303
+  ],
+  [
+   "EQNR.OL",
+   "VAR.OL",
+   0.9038
+  ],
+  [
+   "KBC.BR",
+   "KBCA.BR",
+   0.9024
+  ],
+  [
+   "ODF.OL",
+   "ODFB.OL",
+   0.9
+  ],
+  [
+   "AKRBP.OL",
+   "VAR.OL",
+   0.8824
+  ]
+ ]
+}

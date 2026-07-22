@@ -1,0 +1,64 @@
+{
+ "market": "IN",
+ "window_days": 252,
+ "window": [
+  "2025-07-10",
+  "2026-07-21"
+ ],
+ "symbols": 2001,
+ "pairs_stored": 20658,
+ "mean_pairwise_corr": 0.2253,
+ "median_pairwise_corr": 0.2208,
+ "top_pairs": [
+  [
+   "CONS",
+   "NV20",
+   0.9987
+  ],
+  [
+   "CONS",
+   "MIDCAP",
+   0.9987
+  ],
+  [
+   "BANKNIFTY1",
+   "CONS",
+   0.9986
+  ],
+  [
+   "BANKNIFTY1",
+   "NV20",
+   0.9986
+  ],
+  [
+   "BANKNIFTY1",
+   "MIDCAP",
+   0.9985
+  ],
+  [
+   "MIDCAP",
+   "NV20",
+   0.9983
+  ],
+  [
+   "HEALTHADD",
+   "MIDQ50ADD",
+   0.9969
+  ],
+  [
+   "LIQUID1",
+   "LIQUIDADD",
+   0.9962
+  ],
+  [
+   "NIFTYBEES",
+   "NIFTYIETF",
+   0.9959
+  ],
+  [
+   "GOLDBEES",
+   "HDFCGOLD",
+   0.9958
+  ]
+ ]
+}
