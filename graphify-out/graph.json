@@ -1,0 +1,244 @@
+{
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "nodes": [
+    {
+      "id": "compute_correlations",
+      "label": "compute_correlations.py",
+      "file_type": "code",
+      "source_file": "compute_correlations.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "compute_correlations_one_market",
+      "label": "one_market()",
+      "file_type": "code",
+      "source_file": "compute_correlations.py",
+      "source_location": "L38",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "compute_correlations_main",
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "compute_correlations.py",
+      "source_location": "L89",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "compute_correlations_rationale_2",
+      "label": "Per-market equity correlation matrices from the unified OHLCV warehouse.…",
+      "file_type": "rationale",
+      "source_file": "compute_correlations.py",
+      "source_location": "L2",
+      "_origin": "ast"
+    },
+    {
+      "id": "readme",
+      "label": "README.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "readme_market_correlation_matrices",
+      "label": "market-correlation-matrices",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "readme_method",
+      "label": "Method",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L13",
+      "_origin": "ast"
+    },
+    {
+      "id": "readme_artifacts_data_market",
+      "label": "Artifacts (`data/<MARKET>/`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L19",
+      "_origin": "ast"
+    },
+    {
+      "id": "readme_rebuild",
+      "label": "Rebuild",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L41",
+      "_origin": "ast"
+    },
+    {
+      "id": "readme_caveats",
+      "label": "Caveats",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L47",
+      "_origin": "ast"
+    }
+  ],
+  "links": [
+    {
+      "source": "compute_correlations",
+      "target": "json",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "compute_correlations.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "compute_correlations",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "compute_correlations.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "compute_correlations",
+      "target": "duckdb",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "compute_correlations.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "compute_correlations",
+      "target": "numpy",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "compute_correlations.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "compute_correlations",
+      "target": "pandas",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "compute_correlations.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "compute_correlations",
+      "target": "compute_correlations_one_market",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compute_correlations.py",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "compute_correlations",
+      "target": "compute_correlations_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compute_correlations.py",
+      "source_location": "L89",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "compute_correlations_main",
+      "target": "compute_correlations_one_market",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "compute_correlations.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "compute_correlations_rationale_2",
+      "target": "compute_correlations",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "compute_correlations.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "readme",
+      "target": "readme_market_correlation_matrices",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "readme_market_correlation_matrices",
+      "target": "readme_method",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "readme_market_correlation_matrices",
+      "target": "readme_artifacts_data_market",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "readme_market_correlation_matrices",
+      "target": "readme_rebuild",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "readme_market_correlation_matrices",
+      "target": "readme_caveats",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast"
+    }
+  ],
+  "directed": false
+}
