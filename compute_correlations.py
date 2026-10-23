@@ -20,30 +20,38 @@ is the anti-pattern this repo replaces: same information, ~50x smaller,
 rebuildable with one command.
 """
 import json
+import os
 from pathlib import Path
 
 import duckdb
 import numpy as np
 import pandas as pd
 
-WAREHOUSE = Path.home() / "repos/global-market-data/warehouse/warehouse.duckdb"
+WAREHOUSE = Path(os.environ.get(
+    "WAREHOUSE", Path.home() / "repos/global-market-data/warehouse/warehouse.duckdb"))
 OUT = Path(__file__).resolve().parent / "data"
 MARKETS = ["IN", "US", "JP", "KR", "CN", "EU"]
 WINDOW = 252          # trading days
 N_MAX = 3000          # liquidity cap per market
 MIN_OBS = 200         # min return observations per symbol
 PAIR_THRESHOLD = 0.6  # |r| floor for the long-format pairs file
+MIN_SESSION_FRAC = 0.5  # a date counts as a session if >=50% of the median symbol count traded
 
 
 def one_market(con, mkt):
-    dates = [r[0] for r in con.execute(
-        "SELECT DISTINCT Date FROM ohlcv WHERE market=? ORDER BY Date DESC LIMIT ?",
-        [mkt, WINDOW]).fetchall()]
+    # Only count a date as a trading session if a meaningful share of the market's
+    # symbols have a bar that day (partial scrape days otherwise pollute the window).
+    cnt = con.execute(
+        "SELECT Date, count(DISTINCT Symbol) n FROM ohlcv WHERE market=? AND Volume>0 "
+        "GROUP BY Date ORDER BY Date DESC LIMIT ?", [mkt, WINDOW * 2]).df()
+    ref = cnt["n"].head(WINDOW).median()
+    dates = list(cnt[cnt["n"] >= MIN_SESSION_FRAC * ref]["Date"].head(WINDOW))
     d0 = min(dates)
     df = con.execute(
         """SELECT Symbol, Date, Close, Close*Volume AS tv
-           FROM ohlcv WHERE market=? AND Date>=? AND Close>0""",
+           FROM ohlcv WHERE market=? AND Date>=? AND Close>0 AND Volume>0""",
         [mkt, d0]).df()
+    df = df[df["Date"].isin(dates)]
     # liquidity cap
     top = (df.groupby("Symbol")["tv"].sum().sort_values(ascending=False)
              .head(N_MAX).index)
