@@ -217,3 +217,65 @@ def test_warehouse_path_comes_from_the_environment(monkeypatch):
     m = importlib.import_module("compute_correlations")
     assert str(m.WAREHOUSE) == "/some/where.duckdb"
     sys.modules.pop("compute_correlations", None)
+
+
+# ── boundary cases found by mutation testing ─────────────────────────────────
+def test_pairs_file_is_zstd_compressed(cc):
+    run_one(cc, market_rows("IN"))
+    con = duckdb.connect()
+    comp = con.execute(f"SELECT DISTINCT compression FROM parquet_metadata('{cc.OUT / 'IN' / 'corr_pairs.parquet'}')").fetchall()
+    assert comp == [("ZSTD",)]
+
+
+def test_session_reference_is_the_median_not_the_mean(cc):
+    # 40 one-off symbols appear on 30 days, lifting the MEAN daily count to ~14.8 while the MEDIAN stays 10.
+    # A day with exactly 5 symbols is >= 50% of the median (kept) but < 50% of the mean (would be dropped).
+    rows = market_rows("IN", partial={250: list("ABCDE")})
+    for k in range(40):
+        for i in range(60, 90):
+            rows.append(("IN", f"X{k:02d}", DATES[i], 10.0, 1000.0))
+    s = run_one(cc, rows)
+    assert s["window"][0] == str(DATES[-252].date())          # the 5-symbol day (index 250) stayed a session
+
+
+def test_days_whose_bars_have_no_volume_are_not_sessions(cc):
+    rows = market_rows("IN")
+    rows = [(m, s_, d, c, 0.0 if (d == DATES[260] and s_ not in "ABC") else v) for m, s_, d, c, v in rows]
+    s = run_one(cc, rows)
+    # all ten symbols have a row that day, but only three traded: below half of the usual ten
+    qualified = [d for i, d in enumerate(DATES) if i != 260]
+    assert s["window"][0] == str(qualified[-252].date())
+
+
+def test_a_zero_close_is_dropped_not_turned_into_minus_infinity(cc):
+    rows = [(m, s_, d, 0.0 if (s_ == "D" and d == DATES[200]) else c, v) for m, s_, d, c, v in market_rows("IN")]
+    run_one(cc, rows)
+    corr, syms, _, _ = load(cc)
+    d_idx = list(syms).index("D")
+    assert np.isfinite(corr[d_idx].astype(np.float32)).all()
+
+
+def test_duplicate_bars_keep_the_last_one(cc):
+    rows = market_rows("IN")
+    a_row = [r for r in rows if r[1] == "A" and r[2] == DATES[200]][0]
+    rows.append((a_row[0], "A", a_row[2], a_row[3] * 3.0, a_row[4]))        # a later, wildly different print
+    run_one(cc, rows)
+    corr, syms, pairs, _ = load(cc)
+    ab = float(corr[list(syms).index("A"), list(syms).index("B")])
+    assert ab < 0.9                                                      # the tripled close broke the perfect match
+
+
+def test_pairs_with_too_little_overlap_are_nan(cc):
+    rets = returns_panel()
+    rows = market_rows("IN", rets)
+    rng = np.random.RandomState(4)
+    for name, sl in (("K", slice(-252, -252 + 205)), ("L", slice(-205, None))):
+        px = 50 * np.exp(np.cumsum(rng.normal(0, 0.01, 205)))
+        for d, p in zip(DATES[sl], px):
+            rows.append(("IN", name, d, float(p), 1000.0))
+    run_one(cc, rows)
+    corr, syms, pairs, _ = load(cc)
+    names = list(syms)
+    assert "K" in names and "L" in names                                 # each has 204 returns
+    assert np.isnan(corr[names.index("K"), names.index("L")])            # but they overlap on only ~158 days
+    assert np.isfinite(corr[names.index("K"), names.index("A")])         # K vs a full-history name overlaps 204 days
